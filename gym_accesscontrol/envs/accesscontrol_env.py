@@ -21,21 +21,20 @@ class AccessControlEnv(gym.Env):
         # accept = 1
         accept = bool(action)
 
-        # Accept (only if server available) or reject
-        if accept and self.free_servers < self.N_SERVERS:
+        # Accept (only if server available)
+        if accept and self.free_servers > 0:
             # Compute reward
             reward = self.curr_priority
-            # Increment servers
-            self.free_servers += 1
+            # Decrement free servers
+            self.free_servers -= 1
             # Get next priority
             self.curr_priority = np.random.choice(self.PRIORITIES)
-        else:
-            # Compute reward
+        else: # Reject
             reward = 0
 
         # Free server
-        if np.random.uniform(0, 1) <= self.FREE_SERVER_PROB:
-            self.free_servers -= 1
+        if np.random.uniform(0, 1) <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
+            self.free_servers += 1
 
         return np.array((self.free_servers, self.curr_priority), dtype=int), reward, False, {}
 

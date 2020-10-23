@@ -1,1 +1,1 @@
-from gym_adserver.envs.accesscontrol_env import AccessControlEnv
+from gym_accesscontrol.envs.accesscontrol_env import AccessControlEnv

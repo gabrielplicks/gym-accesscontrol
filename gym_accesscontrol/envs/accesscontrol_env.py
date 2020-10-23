@@ -13,7 +13,7 @@ class AccessControlEnv(gym.Env):
 
         # Gym
         self.action_space = spaces.Discrete(2)  # Accept or reject
-        self.observation_space = spaces.Discrete(2)  # (free_servers, curr_priority)
+        self.observation_space = spaces.Discrete(2)  # spaces.Box((0, self.PRIORITIES[0]), (self.N_SERVERS, self.PRIORITIES[-1]))  # (free_servers, curr_priority)
 
     def step(self, action):
         # Parse action

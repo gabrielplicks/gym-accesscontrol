@@ -33,15 +33,15 @@ class AccessControlEnv(gym.Env):
             reward = 0
 
         # Free server
-        if np.random.uniform(0, 1) <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
+        if np.random.sample() <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
             self.free_servers += 1
 
-        return np.array((self.free_servers, self.curr_priority), dtype=int), reward, False, {}
+        return (self.free_servers, self.curr_priority), reward, False, {}
 
     def reset(self):
         self.free_servers = self.N_SERVERS
         self.curr_priority = np.random.choice(self.PRIORITIES)
-        return np.array((self.free_servers, self.curr_priority), dtype=int)
+        return (self.free_servers, self.curr_priority)
 
     def render(self):
         pass

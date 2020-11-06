@@ -4,7 +4,10 @@ import numpy as np
 
 
 class AccessControlEnv(gym.Env):
-    def __init__(self):
+    def __init__(self, rand_seed=None):
+        # Set random seed
+        if rand_seed: np.random.seed(rand_seed)
+        
         # Env constants
         self.N_SERVERS = 10
         self.FREE_SERVER_PROB = 0.06

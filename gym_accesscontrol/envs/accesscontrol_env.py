@@ -1,6 +1,5 @@
 import gym
 from gym import error, spaces, utils
-from gym.utils import seeding
 import numpy as np
 
 
@@ -21,21 +20,22 @@ class AccessControlEnv(gym.Env):
         # accept = 1
         accept = bool(action)
 
+        # Free servers
+        for _ in range(self.N_SERVERS - self.free_servers):
+            if np.random.sample() <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
+                self.free_servers += 1
+
         # Accept (only if server available)
         if accept and self.free_servers > 0:
             # Compute reward
             reward = self.curr_priority
             # Decrement free servers
             self.free_servers -= 1
-            # Get next priority
-            self.curr_priority = np.random.choice(self.PRIORITIES)
         else: # Reject
             reward = 0
 
-        # Free servers
-        for _ in range(self.N_SERVERS):
-            if np.random.sample() <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
-                self.free_servers += 1
+        # Get next priority
+        self.curr_priority = np.random.choice(self.PRIORITIES)
 
         return (self.free_servers, self.curr_priority), reward, False, {}
 

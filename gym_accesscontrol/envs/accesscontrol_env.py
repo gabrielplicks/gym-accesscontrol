@@ -32,9 +32,10 @@ class AccessControlEnv(gym.Env):
         else: # Reject
             reward = 0
 
-        # Free server
-        if np.random.sample() <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
-            self.free_servers += 1
+        # Free servers
+        for _ in range(self.N_SERVERS):
+            if np.random.sample() <= self.FREE_SERVER_PROB and self.free_servers < self.N_SERVERS:
+                self.free_servers += 1
 
         return (self.free_servers, self.curr_priority), reward, False, {}
 

@@ -40,12 +40,12 @@ class AccessControlEnv(gym.Env):
         # Get next priority
         self.curr_priority = np.random.choice(self.PRIORITIES)
 
-        return (self.free_servers, self.curr_priority), reward, False, {}
+        return np.array([self.free_servers, self.curr_priority]), reward, False, {}
 
     def reset(self):
         self.free_servers = self.N_SERVERS
         self.curr_priority = np.random.choice(self.PRIORITIES)
-        return (self.free_servers, self.curr_priority)
+        return np.array([self.free_servers, self.curr_priority])
 
     def render(self):
         pass
